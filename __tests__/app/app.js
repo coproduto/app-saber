@@ -1,11 +1,11 @@
 import 'react-native';
 import React from 'react';
-import Index from '../index.android.js';
+import App from 'saber-app';
 
 import renderer from 'react-test-renderer';
 
 it('renders correctly', () => {
   const tree = renderer.create(
-    <Index />
+    <App />
   );
 });
