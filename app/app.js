@@ -1,9 +1,13 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
+ * app.js: Ponto de entrada do aplicativo
+ *
+ *     A execução do aplicativo começa com o carregamento deste componente, o qual
+ *     por sua vez é responsável por carregar todos os outros de forma apropriada.
+ *
  * @flow
  * @providesModule saber-app
- */
+ *
+ **/
 
 import React, { Component } from 'react';
 import {

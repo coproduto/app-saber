@@ -1,6 +1,6 @@
 {
   "name": "Saber",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
@@ -21,13 +21,19 @@
     "babel-jest": "18.0.0",
     "babel-preset-react-native": "1.9.1",
     "eslint": "^3.16.0",
+    "eslint-plugin-flowtype": "^2.30.0",
     "eslint-plugin-react": "^6.10.0",
     "eslint-plugin-react-native": "^2.2.1",
     "flow-bin": "^0.37.0",
     "jest": "18.1.0",
-    "react-test-renderer": "15.4.2"
+    "jest-fetch-mock": "^1.0.8",
+    "react-test-renderer": "15.4.2",
+    "sinon": "^1.17.7"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "setupFiles": [
+      "./config/jestSetup.js"
+    ]
   }
 }

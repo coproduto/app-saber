@@ -4,6 +4,7 @@
     "node": true
   },
   "extends": "eslint:recommended",
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true,
@@ -13,8 +14,12 @@
   },
   "plugins": [
     "react",
-    "react-native"
+    "react-native",
+    "flowtype"
   ],
+  "globals": {
+    "fetch": false
+  },
   "rules": {
     "accessor-pairs": "error",
     "array-bracket-spacing": "error",
@@ -33,10 +38,6 @@
     "brace-style": "error",
     "callback-return": "error",
     "camelcase": "error",
-    "capitalized-comments": [
-      "error",
-      "always"
-    ],
     "class-methods-use-this": "off",
     "comma-spacing": [
       "error",
@@ -56,6 +57,60 @@
     "dot-notation": "error",
     "eol-last": "error",
     "eqeqeq": "error",
+    "flowtype/boolean-style": [
+      2,
+      "boolean"
+    ],
+    "flowtype/define-flow-type": 1,
+    "flowtype/delimiter-dangle": [
+      2,
+      "never"
+    ],
+    "flowtype/generic-spacing": [
+      2,
+      "never"
+    ],
+    "flowtype/no-primitive-constructor-types": 2,
+    "flowtype/no-weak-types": 2,
+    "flowtype/object-type-delimiter": [
+      2,
+      "comma"
+    ],
+    "flowtype/require-parameter-type": 2,
+    "flowtype/require-return-type": [
+      2,
+      "always",
+      {
+        "annotateUndefined": "never"
+      }
+    ],
+    "flowtype/require-valid-file-annotation": 2,
+    "flowtype/semi": [
+      2,
+      "always"
+    ],
+    "flowtype/space-after-type-colon": [
+      2,
+      "always"
+    ],
+    "flowtype/space-before-generic-bracket": [
+      2,
+      "never"
+    ],
+    "flowtype/space-before-type-colon": [
+      2,
+      "never"
+    ],
+    "flowtype/type-id-match": [
+      2,
+      "^([A-Z][a-z0-9]+)+Type$"
+    ],
+    "flowtype/union-intersection-spacing": [
+      2,
+      "always"
+    ],
+    "flowtype/use-flow-type": 1,
+    "flowtype/valid-syntax": 1,
     "func-call-spacing": "error",
     "func-name-matching": "error",
     "func-names": "error",
@@ -209,7 +264,6 @@
     "prefer-reflect": "error",
     "prefer-rest-params": "error",
     "prefer-spread": "error",
-    "prefer-template": "error",
     "quotes": [
       "error",
       "single"
@@ -247,5 +301,10 @@
     "wrap-regex": "error",
     "yield-star-spacing": "error",
     "yoda": "error"
+  },
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": true
+    }
   }
 }
