@@ -206,7 +206,6 @@
     "no-process-env": "error",
     "no-process-exit": "error",
     "no-proto": "error",
-    "no-prototype-builtins": "error",
     "no-restricted-globals": "error",
     "no-restricted-imports": "error",
     "no-restricted-modules": "error",
@@ -270,7 +269,6 @@
     "react/jsx-uses-vars": "error",
     "react/jsx-uses-react": "error",
     "require-await": "error",
-    "require-jsdoc": "error",
     "rest-spread-spacing": "error",
     "semi": "error",
     "semi-spacing": "error",
@@ -293,7 +291,6 @@
       "error",
       "never"
     ],
-    "valid-jsdoc": "error",
     "vars-on-top": "error",
     "wrap-iife": "error",
     "wrap-regex": "error",
