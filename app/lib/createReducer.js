@@ -13,11 +13,23 @@
  *
  *
  * @providesModule create-reducer
+ * @flow
  *
  **/
 
-export default function createReducer(initialState, handlers) {
-  return function reducer(state = initialState, action) {
+import type {
+  ReduxActionType,
+  ReduxState,
+  ReduxAction,
+  ReduxReducer
+} from 'flow-types';
+
+type HandlerMap = { [id: ReduxActionType]: ReduxReducer };
+
+function createReducer(initialState: Object,
+                       handlers: HandlerMap): ReduxReducer {
+  return function reducer(state: Object = initialState,
+                          action: ReduxAction): ReduxState {
     if (handlers.hasOwnProperty(action.type)) {
       return handlers[action.type](state, action);
     }
@@ -25,3 +37,5 @@ export default function createReducer(initialState, handlers) {
     return state;
   };
 }
+
+export default createReducer;

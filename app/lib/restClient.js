@@ -25,10 +25,10 @@ import 'react-native';
 type PayloadType = string | Object;
 
 // o tipo do retorno de um pedido
-type ResultType = { status: string,
-                    error: null | string,
-                    response: null | Promise<Object>
-                  };
+export type ResultType = { status: string,
+                           error: null | string,
+                           response: null | Promise<Object>
+                         };
 
 export default class RestClient {
   url: string;
