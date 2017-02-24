@@ -37,25 +37,34 @@ export default class RestClient {
     }
   }
 
+  _requestWithPayload(resource: string,
+                      body: PayloadType,
+                      method: string): Promise<mixed> {
+    const config = {
+      method,
+      body
+    };
+
+    return fetch(this.url + resource, config);
+  }
+
   get(resource: string): Promise<mixed> {
     return fetch(this.url + resource);
   }
 
-  put(resource: string, data: PayloadType): Promise<mixed> {
-    const config = {
-      method: 'PUT',
-      body: data
-    };
+  post(resource: string, data: PayloadType): Promise<mixed> {
+    return this._requestWithPayload(resource, data, 'POST');
+  }
 
-    return fetch(this.url + resource, config);
+  put(resource: string, data: PayloadType): Promise<mixed> {
+    return this._requestWithPayload(resource, data, 'PUT');
   }
 
   patch(resource: string, data: PayloadType): Promise<mixed> {
-    const config = {
-      method: 'PATCH',
-      body: data
-    };
+    return this._requestWithPayload(resource, data, 'PATCH');
+  }
 
-    return fetch(this.url + resource, config);
+  delete(resource: string, data: PayloadType): Promise<mixed> {
+    return this._requestWithPayload(resource, data, 'DELETE');
   }
 }

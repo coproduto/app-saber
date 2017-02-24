@@ -31,6 +31,16 @@ it('makes get requests to the correct address', (done) => {
 });
 
 //os testes subsequentes seguem a mesma lógica do primeiro.
+it('makes post requests to the correct address', (done) => {
+  client.post('test', 'test-body').then((response) => {
+    expect(response.url).toBe(testUrl);
+    done();
+  }).catch((error) => {
+    networkErrorMessage('restClient POST request', error);
+    done();
+  });
+});
+
 it('makes put requests to the correct address', (done) => {
   client.put('test', 'test-body').then((response) => {
     expect(response.url).toBe(testUrl);
@@ -51,3 +61,12 @@ it('makes patch requests to the correct address', (done) => {
   });
 });
 
+it('makes delete request to the correct address', (done) => {
+  client.delete('test', { test: "test" }).then((response) => {
+    expect(response.url).toBe(testUrl);
+    done();
+  }).catch((error) => {
+    networkErrorMessage('"restClient DELETE request"', error);
+    done();
+  });
+});
