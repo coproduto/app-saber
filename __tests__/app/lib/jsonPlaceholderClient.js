@@ -1,3 +1,4 @@
+
 import 'react-native';
 import JsonPlaceholderClient, { Resource } from 'json-placeholder-client';
 
@@ -11,6 +12,10 @@ beforeEach(() => {
 
   _fetch = global.fetch;
   global.fetch = require('jest-fetch-mock');
+});
+
+afterEach(() => {
+  global.fetch = _fetch;
 });
 
 it('creates post resource', () => {
@@ -50,14 +55,15 @@ it('creates user resource', () => {
 });
 
 it('gets all posts', (done) => {
-  fetch.mockResponseOnce('[{ "userId": 1, "id": 1, "title": "fklahsa", "body": "tqwerqwet" }]');
+  const fakeBody = '[{"userId":1,"id":1,"title":"fklahsa","body":"tqwerqwet"}]';
+  fetch.mockResponseOnce(fakeBody);
   
   const posts = client.posts();
   posts.all().then((result) => {
     expect(result.status).toBe('success');
     return result.response;
   }).then((json) => {
-    console.log(json);
+    expect(json).toEqual(JSON.parse(fakeBody));
     done();
   }).catch(() => {
     fail();
