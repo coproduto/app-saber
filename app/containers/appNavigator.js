@@ -9,18 +9,21 @@ import React, { Component } from 'react';
 import { Navigator } from 'react-native';
 import views from 'views';
 
-const startRoute = { view: 'home' };
+type RouteType = { view: string };
+
+const startRoute: RouteType = { view: 'home' };
 
 export default class AppNavigator extends Component {
-  renderScene(route) {
+  renderScene(route: RouteType) {
     const CurrentView = views[route.view];
-    return(
+
+    return (
       <CurrentView {...this.props} />
     );
   }
-  
+
   render() {
-    return(
+    return (
       <Navigator
          initialRoute={ startRoute }
          renderScene={ (route) => this.renderScene(route) } />
