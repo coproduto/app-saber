@@ -1,4 +1,4 @@
-# Prova Prática Saber
+# Prova Prática Saber<a name="top"></a>
 
 ![This repository is a work-in-progress project. Use the code contained here at your own risk.](https://img.shields.io/badge/project%20status-WIP-red.svg)
 [![Build Status](https://travis-ci.org/pcstl/app-saber.svg?branch=master)](https://travis-ci.org/pcstl/app-saber)
@@ -27,7 +27,10 @@ O ponto de entrada do aplicativo é, de acordo com a plataforma, o arquivo
 foram adicionados comentários no cabeçalho do arquivo explicando o fluxo de
 execução.
 
-# English version<a name="en></a>
+
+# English version<a name="en"></a>
+
+* [Back to top](#top)
 
 ## About this app
 
