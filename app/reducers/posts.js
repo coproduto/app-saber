@@ -5,8 +5,14 @@
  */
 
 import createReducer from 'create-reducer';
-// import actionTypes from 'action-types';
+import types from 'action-types';
 
-const postReducers = { loadPosts: createReducer({}, {}) };
+const postReducers = {
+  postCount: createReducer(0, {
+    [types.addPost] (state) {
+      return state + 1;
+    }
+  })
+};
 
 export default postReducers;

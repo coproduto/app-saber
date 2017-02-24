@@ -23,7 +23,7 @@ it('only has actions with valid types', () => {
   //e verificamos se todas as ações têm tipos válidos.
   for (const action in actions) {
     if(actions.hasOwnProperty(action)) {
-      expect(actionTypeList).toContain(action.type);
+      expect(actionTypeList).toContain(actions[action]().type);
     }
   }
 });

@@ -11,11 +11,6 @@
  **/
 
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
 import { Provider } from 'react-redux';
 import {
   createStore,
@@ -25,6 +20,7 @@ import {
 } from 'redux';
 import createLogger from 'redux-logger';
 import reducers from 'reducers';
+import AppContainer from 'app-container';
 
 //criamos um logger Redux e especificamos que ele vai funcionar para todas
 //as ações quando o app estiver em modo de desenvolvimento.
@@ -46,18 +42,6 @@ function configureStore(initialState) {
 //finalmente, geramos o objeto de estado.
 const store = configureStore({});
 
-class AppContainer extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to the SABER challenge app!
-        </Text>
-      </View>
-    );
-  }
-}
-
 //a classe App conecta o aplicativo com o backend Redux.
 export default class App extends Component {
   render() {
@@ -68,22 +52,3 @@ export default class App extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});

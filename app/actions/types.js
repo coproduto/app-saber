@@ -9,7 +9,8 @@ import type { ReduxActionType } from 'flow-types';
 
 const actionTypes: {[id: string]: ReduxActionType} = {
   initialize: 'initialize',
-  finalize: 'finalize'
+  finalize: 'finalize',
+  addPost: 'addPost'
 };
 
 export default actionTypes;
