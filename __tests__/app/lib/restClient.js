@@ -40,3 +40,14 @@ it('makes put requests to the correct address', (done) => {
     done();
   });
 });
+
+it('makes patch requests to the correct address', (done) => {
+  client.patch('test', { test: "test" }).then((response) => {
+    expect(response.url).toBe(testUrl);
+    done();
+  }).catch((error) => {
+    networkErrorMessage('"restClient PATCH request"', error);
+    done();
+  });
+});
+

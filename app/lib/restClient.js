@@ -49,4 +49,13 @@ export default class RestClient {
 
     return fetch(this.url + resource, config);
   }
+
+  patch(resource: string, data: PayloadType): Promise<mixed> {
+    const config = {
+      method: 'PATCH',
+      body: data
+    };
+
+    return fetch(this.url + resource, config);
+  }
 }

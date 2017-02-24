@@ -28,7 +28,7 @@ it('makes get requests', (done) => {
   const verify = expect(callback).toHaveBeenCalled;
 
   //executamos o pedido com a resposta simulada...
-  client.get("test").then((response) => {
+  client.get('test').then((response) => {
     callback();
   }).then(() => {
     //e verificamos se o pedido foi de fato feito
@@ -37,7 +37,7 @@ it('makes get requests', (done) => {
     done();
   }).catch((err) => {
     //se o pedido falhou, lançamos um erro.
-    throw new Error("Network request failed.");
+    throw new Error('Network request failed.');
   });
 });
 
@@ -49,14 +49,28 @@ it('makes put requests', (done) => {
   const callback = jest.fn();
   const verify = expect(callback).toHaveBeenCalled;
 
-  client.put("test").then((response) => {
+  client.put('test', 'test-body').then((response) => {
     callback();
   }).then(() => {
     verify();
     done();
   }).catch((err) => {
-    throw new Error("Network request failed.");
+    throw new Error('Network request failed.');
   });
 });
 
+it('makes patch requests', (done) => {
+  fetch.mockResponseOnce("foo");
 
+  const callback = jest.fn();
+  const verify = expect(callback).toHaveBeenCalled;
+
+  client.put('test', { test: 'test' }).then((response) => {
+    callback();
+  }).then(() => {
+    verify();
+    done();
+  }).catch((err) => {
+    throw new Error('Network request failed.');
+  });
+});
