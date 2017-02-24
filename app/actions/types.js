@@ -1,11 +1,14 @@
 /**
  *
  * @providesModule action-types
+ * @flow
  *
  */
 
-const actionTypes = {
-  initialize: 'initialize'
-}
+
+const actionTypes: {[id: string]: ReduxActionType} = {
+  initialize: 'initialize',
+  finalize: 'finalize'
+};
 
 export default actionTypes;

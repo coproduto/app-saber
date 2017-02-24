@@ -1,9 +1,10 @@
 /**
  *
  * @providesModule post-actions
+ * @flow
  *
  */
 
-const postActions = {};
+const postActions: {[id: string]: ReduxAction} = {};
 
 export default postActions;
