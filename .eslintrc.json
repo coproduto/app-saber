@@ -19,7 +19,8 @@
   ],
   "globals": {
     "fetch": false,
-    "Headers": false
+    "Headers": false,
+    "Response": false
   },
   "rules": {
     "accessor-pairs": "error",
@@ -191,7 +192,6 @@
     "no-multi-str": "error",
     "no-multiple-empty-lines": "error",
     "no-native-reassign": "error",
-    "no-negated-condition": "error",
     "no-negated-in-lhs": "error",
     "no-nested-ternary": "error",
     "no-new": "error",
@@ -250,7 +250,6 @@
     ],
     "object-property-newline": "error",
     "object-shorthand": "error",
-    "one-var": "error",
     "one-var-declaration-per-line": "error",
     "operator-assignment": "error",
     "operator-linebreak": "error",

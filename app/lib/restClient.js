@@ -24,6 +24,12 @@ import 'react-native';
 // o tipo do corpo de uma requisição
 type PayloadType = string | Object;
 
+// o tipo do retorno de um pedido
+type ResultType = { status: string,
+                    error: null | string,
+                    response: null | Promise<Object>
+                  };
+
 export default class RestClient {
   url: string;
 
@@ -44,9 +50,36 @@ export default class RestClient {
     });
   }
 
+  static getJson(promise: Promise<Response>): Promise<ResultType> {
+    const result: ResultType = {
+      status: 'unknown',
+      error: null,
+      response: null
+    };
+
+    const jsonPromise = new Promise((resolve: Function) => {
+      promise.then((response: Response) => {
+        if (response.ok) {
+          result.status = 'success';
+          result.response = response.json();
+        } else {
+          result.status = 'responseError';
+          result.error = response.statusText;
+        }
+        resolve(result);
+      }).catch((error: string) => {
+        result.status = 'requestError';
+        result.error = error;
+        resolve(result);
+      });
+    });
+
+    return jsonPromise;
+  }
+
   _requestWithPayload(resource: string,
                       body: PayloadType,
-                      method: string): Promise<mixed> {
+                      method: string): Promise<Response> {
     const config = {
       method,
       body,
@@ -56,25 +89,25 @@ export default class RestClient {
     return fetch(this.url + resource, config);
   }
 
-  get(resource: string): Promise<mixed> {
+  get(resource: string): Promise<Response> {
     const config = { headers: RestClient.headers() };
 
     return fetch(this.url + resource, config);
   }
 
-  post(resource: string, data: PayloadType): Promise<mixed> {
+  post(resource: string, data: PayloadType): Promise<Response> {
     return this._requestWithPayload(resource, data, 'POST');
   }
 
-  put(resource: string, data: PayloadType): Promise<mixed> {
+  put(resource: string, data: PayloadType): Promise<Response> {
     return this._requestWithPayload(resource, data, 'PUT');
   }
 
-  patch(resource: string, data: PayloadType): Promise<mixed> {
+  patch(resource: string, data: PayloadType): Promise<Response> {
     return this._requestWithPayload(resource, data, 'PATCH');
   }
 
-  delete(resource: string, data: PayloadType): Promise<mixed> {
+  delete(resource: string, data: PayloadType): Promise<Response> {
     return this._requestWithPayload(resource, data, 'DELETE');
   }
 }

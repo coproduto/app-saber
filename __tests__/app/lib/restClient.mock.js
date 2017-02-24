@@ -19,8 +19,6 @@ beforeEach(() => {
   // preparação: criamos o cliente, criamos uma
   // resposta falsa e um callback falso.
   client = new RestClient("http://example.com");
-  
-  fetch.mockResponseOnce("foo");
   callback = jest.fn();
 
   // finalmente, criamos uma função que vai verificar
@@ -33,7 +31,10 @@ afterEach(() => {
   global.fetch = _fetch;
 });
 
-it('makes get requests', (done) => {  
+it('makes get requests', (done) => {
+  // simulamos uma resposta...
+  fetch.mockResponseOnce("foo");
+  
   // executamos o pedido com a resposta simulada...
   client.get('test').then((response) => {
     callback();
@@ -51,6 +52,7 @@ it('makes get requests', (done) => {
 
 // os testes subsequentes seguem a mesma lógica do primeiro.
 it('makes post requests', (done) => {
+  fetch.mockResponseOnce("foo");
   client.put('test', 'test-body').then((response) => {
     callback();
   }).then(() => {
@@ -62,6 +64,7 @@ it('makes post requests', (done) => {
 });
 
 it('makes put requests', (done) => {
+  fetch.mockResponseOnce("foo");
   client.put('test', 'test-body').then((response) => {
     callback();
   }).then(() => {
@@ -73,6 +76,7 @@ it('makes put requests', (done) => {
 });
 
 it('makes patch requests', (done) => {
+  fetch.mockResponseOnce("foo");
   client.patch('test', { test: 'test' }).then((response) => {
     callback();
   }).then(() => {
@@ -84,6 +88,7 @@ it('makes patch requests', (done) => {
 });
 
 it('makes delete requests', (done) => {
+  fetch.mockResponseOnce("foo");
   client.delete('test', { test: 'test' }).then((response) => {
     callback();
   }).then(() => {
@@ -93,3 +98,22 @@ it('makes delete requests', (done) => {
     fail();
   });
 });
+
+it('converts responses to objects', (done) => {
+
+  let jsonValue = { test: "test" };
+  
+  fetch.mockResponse({
+    ok: true
+  });
+
+  RestClient.getJson(client.get('test')).then((result) => {    
+    expect(result.status).toBe('success');
+    expect(result.error).toBeNull();
+    done();
+  }).catch((err) => {
+    fail();
+  });
+});
+
+
