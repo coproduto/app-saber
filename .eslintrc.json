@@ -18,7 +18,8 @@
     "flowtype"
   ],
   "globals": {
-    "fetch": false
+    "fetch": false,
+    "Headers": false
   },
   "rules": {
     "accessor-pairs": "error",

@@ -37,19 +37,29 @@ export default class RestClient {
     }
   }
 
+  static headers(): Headers {
+    return new Headers({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    });
+  }
+
   _requestWithPayload(resource: string,
                       body: PayloadType,
                       method: string): Promise<mixed> {
     const config = {
       method,
-      body
+      body,
+      headers: RestClient.headers()
     };
 
     return fetch(this.url + resource, config);
   }
 
   get(resource: string): Promise<mixed> {
-    return fetch(this.url + resource);
+    const config = { headers: RestClient.headers() };
+
+    return fetch(this.url + resource, config);
   }
 
   post(resource: string, data: PayloadType): Promise<mixed> {
