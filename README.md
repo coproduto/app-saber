@@ -32,8 +32,6 @@ execução.
 
 * [Back to top](#top)
 
-* [Back to top](#top)
-
 ## About this app
 
 This repository contains a mobile application (iOS and Android) which is being
