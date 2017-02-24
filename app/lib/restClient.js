@@ -1,4 +1,3 @@
-
 /**
  * restClient.js: Cliente de API Rest
  *
@@ -22,6 +21,9 @@
 
 import 'react-native';
 
+// o tipo do corpo de uma requisição
+type PayloadType = string | Object;
+
 export default class RestClient {
   url: string;
 
@@ -39,8 +41,11 @@ export default class RestClient {
     return fetch(this.url + resource);
   }
 
-  put(resource: string): Promise<mixed> {
-    const config = { method: 'PUT' };
+  put(resource: string, data: PayloadType): Promise<mixed> {
+    const config = {
+      method: 'PUT',
+      body: data
+    };
 
     return fetch(this.url + resource, config);
   }
