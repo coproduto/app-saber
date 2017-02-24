@@ -7,12 +7,10 @@ import RestClient from 'rest-client';
  * vão usar a biblioteca jest-fetch-mock para simular pedidos de rede.
  */
 
-
-import 'isomorphic-fetch'; //necessário para jest-fetch-mock
-
 beforeEach(() => {
   _fetch = global.fetch;
   global.fetch = require('jest-fetch-mock');
+  client = new RestClient("http://example.com");
 });
 
 afterEach(() => {
@@ -20,8 +18,6 @@ afterEach(() => {
 });
 
 it('makes get requests', (done) => {  
-  const client = new RestClient("http://example.com");
-
   // a resposta aqui não é importante, só queremos que o "servidor"
   // responda a pedidos GET.
   fetch.mockResponseOnce("foo");
@@ -42,7 +38,24 @@ it('makes get requests', (done) => {
   }).catch((err) => {
     //se o pedido falhou, lançamos um erro.
     throw new Error("Network request failed.");
+  });
+});
+
+
+//os testes subsequentes seguem a mesma lógica do primeiro.
+it('makes put requests', (done) => {
+  fetch.mockResponseOnce("foo");
+
+  const callback = jest.fn();
+  const verify = expect(callback).toHaveBeenCalled;
+
+  client.put("test").then((response) => {
+    callback();
+  }).then(() => {
+    verify();
     done();
+  }).catch((err) => {
+    throw new Error("Network request failed.");
   });
 });
 

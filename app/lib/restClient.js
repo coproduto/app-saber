@@ -38,4 +38,10 @@ export default class RestClient {
   get(resource: string): Promise<mixed> {
     return fetch(this.url + resource);
   }
+
+  put(resource: string): Promise<mixed> {
+    const config = { method: 'PUT' };
+
+    return fetch(this.url + resource, config);
+  }
 }
