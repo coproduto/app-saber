@@ -21,14 +21,10 @@
 
 import 'react-native';
 
-// o tipo do corpo de uma requisição
-type PayloadType = string | Object;
-
-// o tipo do retorno de um pedido
-export type ResultType = { status: string,
-                           error: null | string,
-                           response: null | Promise<Object>
-                         };
+import type {
+  PayloadType,
+  ResultType
+} from 'restful';
 
 export default class RestClient {
   url: string;
