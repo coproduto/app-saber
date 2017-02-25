@@ -12,6 +12,11 @@ const postReducers = {
     [types.addPost] (state) {
       return state + 1;
     }
+  }),
+  posts: createReducer([], {
+    [types.setPosts] (state, action) {
+      return action.payload;
+    }
   })
 };
 

@@ -19,6 +19,7 @@ import {
   compose
 } from 'redux';
 import createLogger from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
 import reducers from 'reducers';
 import AppContainer from 'app-container';
 
@@ -33,6 +34,7 @@ const loggerMiddleware = createLogger(
 function configureStore(initialState) {
   const enhancer = compose(
     applyMiddleware(
+      thunkMiddleware,
       loggerMiddleware
     )
   );

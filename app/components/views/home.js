@@ -7,48 +7,75 @@
 
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  Text,
   View,
-  TouchableHighlight
+  Text
 } from 'react-native';
+import {
+  Container,
+  Header,
+  Title,
+  Content,
+  Body,
+  Card,
+  CardItem,
+  Button,
+  List,
+  ListItem
+} from 'native-base';
+import Spinner from 'react-native-spinkit';
+
+type PostType = { userId: number,
+                  id: number,
+                  title: string,
+                  body: string
+                }
 
 export default class HomeView extends Component {
   addPost() {
     this.props.addPost();
   }
+
+  componentDidMount() {
+    this.fetchPosts();
+   }
+
+  fetchPosts() {
+    this.props.fetchPosts();
+  }
+
+  renderRow(post: PostType) {
+    return (
+      <ListItem>
+        <Card>
+          <CardItem>
+            <Body>
+              <Text>{ post.title }</Text>
+              <Text>{ post.body }</Text>
+            </Body>
+          </CardItem>
+        </Card>
+      </ListItem>
+    );
+  }
   
   render() {
     return (
-        <View style={styles.container}>
-        <Text style={styles.welcome}>
-        Welcome to the SABER challenge app!
-
-      Post count: { this.props.postCount }
-      </Text>
-        <TouchableHighlight onPress={ () => this.addPost() }>
-        <Text>Add post</Text>
-        </TouchableHighlight>
-        </View>
+      <Container>
+        <Header>
+          <Body>
+            <Title>Prova Prática SABER</Title>
+          </Body>
+        </Header>
+        <Content>
+          <Spinner type='ThreeBounce'
+                   color='#CCCCCC'
+                   isVisible={ this.props.showLoadingIndicators }/>
+          
+          <List dataArray={ this.props.posts }
+                renderRow={ (item) => this.renderRow(item) }>            
+          </List>          
+        </Content>
+      </Container>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});

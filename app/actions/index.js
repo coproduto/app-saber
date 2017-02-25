@@ -5,15 +5,17 @@
  *
  */
 
-import PostActions from 'post-actions';
-import CommentActions from 'comment-actions';
+import postActions from 'post-actions';
+import commentActions from 'comment-actions';
+import userActions from 'user-actions';
 
 import type { ReduxAction } from 'flow-types';
 
 const actions: {[id: string]: ReduxAction} = Object.assign(
   {},
-  PostActions,
-  CommentActions
+  postActions,
+  commentActions,
+  userActions
 );
 
 export default actions;

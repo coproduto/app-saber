@@ -7,6 +7,6 @@
 import createReducer from 'create-reducer';
 // import actionTypes from 'action-types';
 
-const commentReducers = { loadComments: createReducer({}, {}) };
+const commentReducers = { comments: createReducer([], {}) };
 
 export default commentReducers;

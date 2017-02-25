@@ -24,15 +24,15 @@ export class Resource {
   }
 
   all(): Promise<ResultType> {
-    return RestClient.getJson(this.rest.get(this.resource));
+    return RestClient.getJson(this.rest.get(this.resourceName));
   }
 
   single(id): Promise<ResultType> {
-    return RestClient.getJson(this.rest.get(this.resource + '/' + id));
+    return RestClient.getJson(this.rest.get(this.resourceName + '/' + id));
   }
 }
 
-export default class sonPlaceholderClient {
+export default class JsonPlaceholderClient {
   rest: RestClient;
 
   constructor() {
