@@ -26,9 +26,9 @@ import type {
 
 type HandlerMap = { [id: ReduxActionType]: ReduxReducer };
 
-function createReducer(initialState: Object,
+function createReducer(initialState: any,
                        handlers: HandlerMap): ReduxReducer {
-  return function reducer(state: Object = initialState,
+  return function reducer(state: any = initialState,
                           action: ReduxAction): ReduxState {
     if (handlers.hasOwnProperty(action.type)) {
       return handlers[action.type](state, action);
