@@ -71438,7 +71438,7 @@ var _actionTypes=require(449           );var _actionTypes2=babelHelpers.interopR
 
 var userReducers={
 users:(0,_createReducer3.default)([],babelHelpers.defineProperty({},
-_actionTypes2.default.setUser,function(state,action){
+_actionTypes2.default.setUsers,function(state,action){
 return action.payload;
 }))};exports.default=
 
@@ -71506,7 +71506,6 @@ _react2.default.createElement(_appNavigator2.default,this.props));
 
 (0,_reactRedux.connect)(
 function(state){return{
-postCount:state.postCount,
 users:state.users,
 posts:state.posts,
 comments:state.comments,
@@ -71532,7 +71531,10 @@ var _views=require(455    );var _views2=babelHelpers.interopRequireDefault(_view
 
 
 
-var startRoute={view:'home',props:{}};
+var startRoute={
+view:'home',
+props:{}};
+
 
 var transitionMap={
 home:{
@@ -71547,9 +71549,11 @@ back:true}};var
 
 AppNavigator=function(_Component){babelHelpers.inherits(AppNavigator,_Component);function AppNavigator(){babelHelpers.classCallCheck(this,AppNavigator);return babelHelpers.possibleConstructorReturn(this,(AppNavigator.__proto__||Object.getPrototypeOf(AppNavigator)).apply(this,arguments));}babelHelpers.createClass(AppNavigator,[{key:'viewForward',value:function viewForward(
 
-
 navigator,view){
-return function(props){return navigator.push({view:view,props:props});};
+return function(props){return navigator.push({
+view:view,
+props:props});};
+
 }},{key:'viewBack',value:function viewBack(
 
 navigator){
@@ -71570,7 +71574,10 @@ if(canGoBack){
 navigationProps.back=this.viewBack(navigator);
 }
 
-var viewProps=babelHelpers.extends({},this.props,navigationProps,route.props);
+var viewProps=babelHelpers.extends({},
+this.props,
+navigationProps,
+route.props);
 
 return(
 _react2.default.createElement(CurrentView,viewProps));
@@ -71581,8 +71588,7 @@ _react2.default.createElement(CurrentView,viewProps));
 return(
 _react2.default.createElement(_reactNative.Navigator,{
 initialRoute:startRoute,
-renderScene:function renderScene(route,nav){return _this2.renderScene(route,nav);},
-ref:function ref(nav){_this2.nav=nav;}}));
+renderScene:function renderScene(route,nav){return _this2.renderScene(route,nav);}}));
 
 }}]);return AppNavigator;}(_react.Component);exports.default=AppNavigator;
 }, 454, null, "app-navigator");
@@ -71615,6 +71621,7 @@ var _reactNative=require(42            ); // 42 = react-native
 
 
 
+
 var _nativeBase=require(457          ); // 457 = native-base
 
 
@@ -71635,8 +71642,20 @@ var _loadingIndicatorComponent=require(777                          );var _loadi
 
 
 
+
+
+
+
+
+
+
+
+
 HomeView=function(_Component){babelHelpers.inherits(HomeView,_Component);function HomeView(){babelHelpers.classCallCheck(this,HomeView);return babelHelpers.possibleConstructorReturn(this,(HomeView.__proto__||Object.getPrototypeOf(HomeView)).apply(this,arguments));}babelHelpers.createClass(HomeView,[{key:'componentDidMount',value:function componentDidMount()
+
+
 {
+this.orderedUsers=[];
 if(!this.props.hasPosts){
 this.props.fetchPosts();
 }
@@ -71658,13 +71677,42 @@ postId:post.id});
 }},{key:'renderRow',value:function renderRow(
 
 post){var _this2=this;
+var postUserName="";
+if(this.orderedUsers.length>post.userId-1){
+postUserName=this.orderedUsers[post.userId-1].name;
+}
+
+var commentCount=0;
+if(this.props.hasComments&&this.props.comments.length>0){
+commentCount=this.props.comments.filter(
+function(comment){return comment.postId===post.id;}).
+length;
+}
+
+var commentString="Nenhum comentário";
+if(commentCount>0){
+commentString=commentCount.toString()+" comentários";
+}
+
 return(
 _react2.default.createElement(_nativeBase.ListItem,null,
 _react2.default.createElement(_nativeBase.Card,null,
-_react2.default.createElement(_nativeBase.CardItem,{button:true,onPress:function onPress(){console.log(post.title);_this2.toPostView(post);}},
+_react2.default.createElement(_nativeBase.CardItem,{button:true,onPress:function onPress(){_this2.toPostView(post);}},
 _react2.default.createElement(_nativeBase.Body,null,
-_react2.default.createElement(_reactNative.Text,null,post.title),
-_react2.default.createElement(_reactNative.Text,null,post.body))))));
+_react2.default.createElement(_reactNative.View,{style:styles.postCard},
+_react2.default.createElement(_reactNative.View,{style:styles.authorView},
+_react2.default.createElement(_reactNative.Text,{style:styles.author},postUserName+' postou:')),
+
+_react2.default.createElement(_reactNative.View,{style:styles.titleView},
+_react2.default.createElement(_reactNative.Text,{style:styles.title},post.title)),
+
+_react2.default.createElement(_reactNative.View,{style:styles.bodyView},
+_react2.default.createElement(_reactNative.Text,{style:styles.body},post.body)),
+
+_react2.default.createElement(_reactNative.View,{style:styles.commentsView},
+_react2.default.createElement(_reactNative.Text,{style:styles.comments},commentString))))))));
+
+
 
 
 
@@ -71673,6 +71721,11 @@ _react2.default.createElement(_reactNative.Text,null,post.body))))));
 }},{key:'render',value:function render()
 
 {var _this3=this;
+if(this.props.hasUsers){
+this.orderedUsers=this.props.users.sort(function(a,b){return(
+a.userId<b.userId?-1:1);});
+}
+
 return(
 _react2.default.createElement(_nativeBase.Container,null,
 _react2.default.createElement(_nativeBase.Header,null,
@@ -71685,12 +71738,53 @@ _react2.default.createElement(_loadingIndicatorComponent2.default,{
 hasUsers:this.props.hasUsers,
 hasPosts:this.props.hasPosts,
 hasComments:this.props.hasComments}),
+_react2.default.createElement(_reactNative.View,{style:styles.header},
+_react2.default.createElement(_reactNative.Text,{style:styles.headerText},'Posts recentes')),
+
+_react2.default.createElement(_reactNative.View,{style:styles.separator}),
 _react2.default.createElement(_nativeBase.List,{dataArray:this.props.posts,
 renderRow:function renderRow(item){return _this3.renderRow(item);}}))));
 
 
 
 }}]);return HomeView;}(_react.Component);exports.default=HomeView;
+
+
+var styles=_reactNative.StyleSheet.create({
+separator:{
+backgroundColor:'#AAAAAA',
+height:_reactNative.StyleSheet.hairlineWidth,
+alignSelf:'stretch'},
+
+header:{margin:10},
+headerText:{
+textAlign:'left',
+fontWeight:'bold',
+fontSize:20},
+
+postCard:{padding:20},
+titleView:{
+margin:5,
+marginBottom:15},
+
+authorView:{alignItems:'flex-start'},
+commentsView:{alignItems:'flex-start'},
+bodyView:{margin:5},
+title:{
+fontWeight:'bold',
+fontSize:24},
+
+author:{
+fontWeight:'bold',
+fontSize:12},
+
+body:{
+textAlign:'justify',
+fontSize:15},
+
+comments:{
+fontWeight:'bold',
+fontSize:12}});
 }, 456, null, "home-view");
 __d(/* native-base/dist/src/index.js */function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});exports.mapPropsToStyleNames=exports.Segment=exports.DefaultTabBar=exports.TabContainer=exports.TabHeading=exports.Toast=exports.View=exports.TabContent=exports.STabs=exports.Text=exports.Grid=exports.Row=exports.Col=exports.Gravatar=exports.Textarea=exports.Label=exports.Subtitle=exports.Item=exports.DeckSwiper=exports.Separator=exports.ListItem=exports.List=exports.Picker=exports.FooterTab=exports.Tabs=exports.Tab=exports.Footer=exports.Content=exports.Container=exports.Switch=exports.Spinner=exports.H3=exports.H2=exports.H1=exports.CardItem=exports.Card=exports.Thumbnail=exports.Radio=exports.CheckBox=exports.Badge=exports.Body=exports.Right=exports.Left=exports.Fab=exports.Title=exports.Input=exports.InputGroup=exports.Form=exports.Header=exports.Icon=exports.IconNB=exports.Button=exports.Drawer=exports.connectStyle=exports.StyleProvider=exports.variables=exports.getTheme=exports.Swipeout=undefined;var _theme=require(458             ); // 458 = @shoutem/theme
 var _lodash=require(471     ); // 471 = lodash
@@ -131484,16 +131578,21 @@ var _reactNative=require(42            ); // 42 = react-native
 var _reactNativeSpinkit=require(778                   );var _reactNativeSpinkit2=babelHelpers.interopRequireDefault(_reactNativeSpinkit);var // 778 = react-native-spinkit
 
 LoadingIndicator=function(_Component){babelHelpers.inherits(LoadingIndicator,_Component);function LoadingIndicator(){babelHelpers.classCallCheck(this,LoadingIndicator);return babelHelpers.possibleConstructorReturn(this,(LoadingIndicator.__proto__||Object.getPrototypeOf(LoadingIndicator)).apply(this,arguments));}babelHelpers.createClass(LoadingIndicator,[{key:'loadingPhrase',value:function loadingPhrase()
+
 {
 if(!this.props.hasPosts){
-return"Carregando postagens...";
-}else if(!this.props.hasComments){
-return"Carregando comentários...";
-}else if(!this.props.hasUsers){
-return"Carregando...";
-}else{
-return"";
+return'Carregando postagens...';
 }
+
+if(!this.props.hasComments){
+return'Carregando comentários...';
+}
+
+if(!this.props.hasUsers){
+return'Carregando...';
+}
+
+return'';
 }},{key:'render',value:function render()
 
 {var _this2=this;
@@ -131508,6 +131607,7 @@ color:'#CCCCCC'})));
 
 
 }
+
 return null;
 }}]);return LoadingIndicator;}(_react.Component);exports.default=LoadingIndicator;
 }, 777, null, "loading-indicator-component");
@@ -131660,6 +131760,8 @@ renderRow:function renderRow(item){return _this2.renderRow(item);}}))));
 
 
 
+
+
 }}]);return PostsView;}(_react.Component);exports.default=PostsView;
 }, 779, null, "posts-view");
 __d(/* actions */function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});
@@ -131722,17 +131824,15 @@ if(results!==null){
 dispatch(postActions.setPosts(results));
 }
 dispatch(postActions.fetchPostsOnline(results));
-}).catch(function(err){return tryOnline(null);});
+}).catch(function(){return dispatch(postActions.fetchPostsOnline(null));});
 };},
 fetchPostsOnline:function fetchPostsOnline(offlineResults){return function(dispatch){
 retrievePostsOnline().then(function(results){
 if(results!==null){
 dispatch(postActions.setPosts(results));
 savePosts(results);
-}else{
-if(offlineResults===null){
+}else if(offlineResults===null){
 dispatch(postActions.fetchPostsFail());
-}
 }
 });
 };},
@@ -131936,11 +132036,11 @@ __d(/* persistent-storage */function(global, require, module, exports) {Object.d
 var _jsonPlaceholderClient=require(782                      ); // 782 = json-placeholder-client
 var _reactNative=require(42            ); // 42 = react-native
 
-var store="@SaberStore";var
+var store='@SaberStore';var
 
 PersistentStorage=function(){function PersistentStorage(){babelHelpers.classCallCheck(this,PersistentStorage);}babelHelpers.createClass(PersistentStorage,null,[{key:'makeKey',value:function makeKey(
 name){
-return store+":"+name;
+return store+':'+name;
 }},{key:'retrieveResourceOnline',value:function retrieveResourceOnline(
 
 resource){
@@ -131949,6 +132049,7 @@ resource.all().then(function(result){
 if(result.status==='success'){
 return result.response;
 }
+
 return null;
 }).then(function(response){
 resolve(response);
@@ -131960,8 +132061,10 @@ resolve(null);
 
 resource){var _this=this;
 return new Promise(function(resolve){return(
-_reactNative.AsyncStorage.getItem(_this.makeKey(resource.name)).then(function(item){
+_reactNative.AsyncStorage.getItem(_this.makeKey(resource.name)).
+then(function(item){
 var itemValue=JSON.parse(item);
+
 resolve(itemValue);
 }).catch(function(){
 resolve(null);
@@ -131969,10 +132072,14 @@ resolve(null);
 
 }},{key:'saveResource',value:function saveResource(
 
-resource,value){
-var promise=_reactNative.AsyncStorage.
-setItem(this.makeKey(resource.name),JSON.stringify(value)).
-catch(function(err){return console.log(err);});
+resource,value){var _this2=this;
+var promise=new Promise(function(resolve){return(
+_reactNative.AsyncStorage.
+setItem(_this2.makeKey(resource.name),
+JSON.stringify(value)).
+then(resolve(true)).
+catch(function(){return resolve(false);}));});
+
 
 return promise;
 }}]);return PersistentStorage;}();exports.default=PersistentStorage;
@@ -132014,17 +132121,15 @@ if(results!==null){
 dispatch(commentActions.setComments(results));
 }
 dispatch(commentActions.fetchCommentsOnline(results));
-}).catch(function(err){return tryOnline(null);});
+}).catch(function(){return commentActions.fetchCommentsOnline(null);});
 };},
 fetchCommentsOnline:function fetchCommentsOnline(offlineResults){return function(dispatch){
 retrieveCommentsOnline().then(function(results){
 if(results!==null){
 dispatch(commentActions.setComments(results));
 saveComments(results);
-}else{
-if(offlineResults===null){
+}else if(offlineResults===null){
 dispatch(commentActions.fetchCommentsFail());
-}
 }
 });
 };},
@@ -132077,17 +132182,15 @@ if(results!==null){
 dispatch(userActions.setUsers(results));
 }
 dispatch(userActions.fetchUsersOnline(results));
-}).catch(function(err){return tryOnline(null);});
+}).catch(function(){return userActions.fetchUsersOnline(null);});
 };},
 fetchUsersOnline:function fetchUsersOnline(offlineResults){return function(dispatch){
 retrieveUsersOnline().then(function(results){
 if(results!==null){
 dispatch(userActions.setUsers(results));
 saveUsers(results);
-}else{
-if(offlineResults===null){
+}else if(offlineResults===null){
 dispatch(userActions.fetchUsersFail());
-}
 }
 });
 };},

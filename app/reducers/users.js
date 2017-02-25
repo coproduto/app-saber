@@ -9,7 +9,7 @@ import types from 'action-types';
 
 const userReducers = {
   users: createReducer([], {
-    [types.setUser] (state, action) {
+    [types.setUsers] (state, action) {
       return action.payload;
     }
   })

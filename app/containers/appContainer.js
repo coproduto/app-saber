@@ -28,7 +28,6 @@ class AppContainer extends Component {
 // finalmente, exportamos o componente conectado ao backend.
 export default connect(
   (state) => ({
-    postCount: state.postCount,
     users: state.users,
     posts: state.posts,
     comments: state.comments,
