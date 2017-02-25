@@ -108,10 +108,14 @@ export default class PostsView extends Component {
           <Right />
         </Header>
         <Content>
-          <LoadingIndicator
-             hasUsers={ this.props.hasUsers }
-             hasPosts={ this.props.hasPosts }
-             hasComments={ this.props.hasComments } />
+        <LoadingIndicator
+           posts={ this.props.posts }
+           comments={ this.props.comments}
+           users={ this.props.users }
+           hasUsers={ this.props.hasUsers }
+           hasPosts={ this.props.hasPosts }
+           hasComments={ this.props.hasComments } />
+        
           <View style={{ flex: 1 }}>
             <Card>
               <CardItem>

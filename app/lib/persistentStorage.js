@@ -10,10 +10,11 @@ import { AsyncStorage } from 'react-native';
 
 const store = '@SaberStore';
 
+function makeKey(name: string): string {
+  return store + ':' + name;
+}
+
 export default class PersistentStorage {
-  static makeKey(name: string): string {
-    return store + ':' + name;
-  }
 
   static retrieveResourceOnline(resource: Resource): Promise<Object | null> {
     return new Promise((resolve) => {
@@ -32,8 +33,10 @@ export default class PersistentStorage {
   }
 
   static retrieveResourceOffline(resource: Resource): Promise<Object | null> {
+    const path = makeKey(resource.name());
+
     return new Promise((resolve) =>
-                       AsyncStorage.getItem(this.makeKey(resource.name))
+                       AsyncStorage.getItem(path)
                          .then((item) => {
                            const itemValue = JSON.parse(item);
 
@@ -45,10 +48,11 @@ export default class PersistentStorage {
   }
 
   static saveResource(resource: Resource, value: Object): Promise<mixed> {
+    const path = makeKey(resource.name());
+
     const promise = new Promise((resolve) =>
                                 AsyncStorage
-                                .setItem(this.makeKey(resource.name),
-                                         JSON.stringify(value))
+                                .setItem(path, JSON.stringify(value))
                                 .then(resolve(true))
                                 .catch(() => resolve(false))
                                );

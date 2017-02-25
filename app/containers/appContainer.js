@@ -34,7 +34,8 @@ export default connect(
     hasUsers: state.hasUsers,
     hasPosts: state.hasPosts,
     hasComments: state.hasComments,
-    loadingPhrase: state.loadingPhrase
+    loadingPhrase: state.loadingPhrase,
+    errors: state.errors
   }),
   mapDispatchToProps
 )(AppContainer);

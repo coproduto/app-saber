@@ -19,7 +19,8 @@ const actionTypes: {[id: string]: ReduxActionType} = {
   fetchCommentsFail: 'fetchCommentsFail',
   showLoadingIndicators: 'showLoadingIndicators',
   hideLoadingIndicators: 'hideLoadingIndicators',
-  setLoadingPhrase: 'setLoadingPhrase'
+  setLoadingPhrase: 'setLoadingPhrase',
+  clearErrors: 'clearErrors'
 };
 
 export default actionTypes;

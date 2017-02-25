@@ -60,6 +60,19 @@ export default class HomeView extends Component {
     this.props.next({ post });
   }
 
+  retryLoad() {
+    this.props.clearErrors();
+    if (!this.props.hasPosts) {
+      this.props.fetchPosts();
+    }
+    if (!this.props.hasUsers) {
+      this.props.fetchUsers();
+    }
+    if (!this.props.hasComments) {
+      this.props.fetchComments();
+    }
+  }
+
   renderRow(post: PostType) {
     let postUserName = "";
     if (this.orderedUsers.length > post.userId - 1) {
@@ -103,6 +116,48 @@ export default class HomeView extends Component {
       </ListItem>
     );
   }
+
+  renderContent() {
+    if (this.props.hasPosts &&
+        this.props.hasComments &&
+        this.props.hasUsers &&
+        this.props.users.length > 0 &&
+        this.props.comments.length > 0 &&
+        this.props.posts.length > 0 &&
+        !this.props.errors) {
+      return (
+        <View>
+          <View style={styles.header}>
+            <Text style={styles.headerText}>Posts recentes</Text>
+          </View>
+          <View style={styles.separator} />
+          <List dataArray={ this.props.posts }
+                renderRow={ (item) => this.renderRow(item) } />
+        </View>
+      );
+    }
+    return null;
+  }
+
+  renderErrors() {
+    if (this.props.errors) {
+      return (
+        <View>
+          <Card>
+            <CardItem button onPress={ () => { this.retryLoad(); } }>
+              <Body>
+                <View style={styles.error}>
+                  <Text style={styles.errorText}>Erro carregando conteúdo.</Text>
+                  <Text style={styles.errorText}>Toque aqui para tentar novamente.</Text>
+                </View>
+              </Body>
+            </CardItem>
+          </Card>
+        </View>
+      );
+    }
+    return null;
+  }
   
   render() {
     if(this.props.hasUsers) {
@@ -118,16 +173,19 @@ export default class HomeView extends Component {
           </Body>
         </Header>
         <Content>
-          <LoadingIndicator
-             hasUsers={ this.props.hasUsers }
-             hasPosts={ this.props.hasPosts }
-             hasComments={ this.props.hasComments } />
-          <View style={styles.header}>
-            <Text style={styles.headerText}>Posts recentes</Text>
-          </View>
-          <View style={styles.separator} />
-          <List dataArray={ this.props.posts }
-                renderRow={ (item) => this.renderRow(item) } />
+          
+        <LoadingIndicator
+           posts={ this.props.posts }
+           comments={ this.props.comments}
+           users={ this.props.users }
+           hasUsers={ this.props.hasUsers }
+           hasPosts={ this.props.hasPosts }
+           hasComments={ this.props.hasComments }
+           errors={ this.props.errors } />
+
+        { this.renderErrors() }
+        { this.renderContent() }
+        
         </Content>
       </Container>
     );
@@ -169,5 +227,15 @@ const styles = StyleSheet.create({
   comments: {
     fontWeight: 'bold',
     fontSize: 12
+  },
+  error: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 20
+  },
+  errorText: {
+    textAlign: 'center',
+    fontSize: 20
   }
 });

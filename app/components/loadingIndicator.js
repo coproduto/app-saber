@@ -32,7 +32,11 @@ export default class LoadingIndicator extends Component {
   render() {
     if (!(this.props.hasPosts &&
           this.props.hasUsers &&
-          this.props.hasComments)) {
+          this.props.hasComments &&
+          this.props.users.length &&
+          this.props.comments.length &&
+          this.props.posts.length) &&
+        (!(this.props.errors))) {
       return (
         <View>
           <Text>{ (() => this.loadingPhrase())() }</Text>
