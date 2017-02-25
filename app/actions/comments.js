@@ -16,11 +16,11 @@ import type {
 
 const comments = new JsonPlaceholderClient().comments();
 
-function retrieveCommentsOnline(): Promise<Object> {
+function retrieveCommentsOnline(): Promise<Object | null> {
   return Storage.retrieveResourceOnline(comments);
 }
 
-function retrieveCommentsOffline(): Promise<Object> {
+function retrieveCommentsOffline(): Promise<Object | null> {
   return Storage.retrieveResourceOffline(comments);
 }
 
@@ -29,25 +29,23 @@ function saveComments(commentArray: Object): Promise<mixed> {
 }
 
 const commentActions: {[id: string]: ReduxAction} = {
-  fetchComments: () => (dispatch) => {    
+  fetchComments: () => (dispatch) => {
     retrieveCommentsOffline().then((results) => {
       if (results !== null) {
         dispatch(commentActions.setComments(results));
-      } 
+      }
       dispatch(commentActions.fetchCommentsOnline(results));
-    }).catch((err) => tryOnline(null));                             
+    }).catch(() => commentActions.fetchCommentsOnline(null));
   },
   fetchCommentsOnline: (offlineResults) => (dispatch) => {
     retrieveCommentsOnline().then((results) => {
       if (results !== null) {
         dispatch(commentActions.setComments(results));
         saveComments(results);
-      } else {
-        if (offlineResults === null) {
+      } else if (offlineResults === null) {
           dispatch(commentActions.fetchCommentsFail());
         }
-      }
-    });
+      });
   },
   setComments: (commentsArray: Object[]): ActionObject => ({
     type: actionTypes.setComments,

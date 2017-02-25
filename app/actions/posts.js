@@ -16,39 +16,37 @@ import type {
 const posts = new JsonPlaceholderClient().posts();
 
 // função que será usada para buscar os posts online
-function retrievePostsOnline(): Promise<Object> {
+function retrievePostsOnline(): Promise<Object | null> {
   return Storage.retrieveResourceOnline(posts);
 }
 
 // função que será usada para buscar os posts no dispositivo
-function retrievePostsOffline(): Promise<Object> {
+function retrievePostsOffline(): Promise<Object | null> {
   return Storage.retrieveResourceOffline(posts);
 }
 
-function savePosts(postArray: Object): Promise<Mixed> {
+function savePosts(postArray: Object): Promise<mixed> {
   return Storage.saveResource(posts, postArray);
 }
 
 const postActions: {[id: string]: ReduxAction} = {
-  fetchPosts: () => (dispatch) => {    
+  fetchPosts: () => (dispatch) => {
     retrievePostsOffline().then((results) => {
       if (results !== null) {
         dispatch(postActions.setPosts(results));
-      } 
+      }
       dispatch(postActions.fetchPostsOnline(results));
-    }).catch((err) => tryOnline(null));                             
+    }).catch(() => dispatch(postActions.fetchPostsOnline(null)));
   },
   fetchPostsOnline: (offlineResults) => (dispatch) => {
     retrievePostsOnline().then((results) => {
       if (results !== null) {
         dispatch(postActions.setPosts(results));
         savePosts(results);
-      } else {
-        if (offlineResults === null) {
+      } else if (offlineResults === null) {
           dispatch(postActions.fetchPostsFail());
         }
-      }
-    });
+      });
   },
   setPosts: (postsArray: Object[]): ActionObject => ({
     type: actionTypes.setPosts,

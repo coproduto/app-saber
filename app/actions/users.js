@@ -16,38 +16,36 @@ import type {
 
 const users = new JsonPlaceholderClient().users();
 
-function retrieveUsersOnline(): Promise<Object> {
+function retrieveUsersOnline(): Promise<Object | null> {
   return Storage.retrieveResourceOnline(users);
 }
 
-function retrieveUsersOffline(): Promise<Object> {
+function retrieveUsersOffline(): Promise<Object | null> {
   return Storage.retrieveResourceOffline(users);
 }
 
-function saveUsers(userArray: Object): Promise<Mixed> {
+function saveUsers(userArray: Object): Promise<mixed> {
   return Storage.saveResource(users, userArray);
 }
 
 const userActions: {[id: string]: ReduxAction} = {
-  fetchUsers: () => (dispatch) => {    
+  fetchUsers: () => (dispatch) => {
     retrieveUsersOffline().then((results) => {
       if (results !== null) {
         dispatch(userActions.setUsers(results));
-      } 
+      }
       dispatch(userActions.fetchUsersOnline(results));
-    }).catch((err) => tryOnline(null));                             
+    }).catch(() => userActions.fetchUsersOnline(null));
   },
   fetchUsersOnline: (offlineResults) => (dispatch) => {
     retrieveUsersOnline().then((results) => {
       if (results !== null) {
         dispatch(userActions.setUsers(results));
         saveUsers(results);
-      } else {
-        if (offlineResults === null) {
+      } else if (offlineResults === null) {
           dispatch(userActions.fetchUsersFail());
         }
-      }
-    });
+      });
   },
   setUsers: (usersArray: Object[]): ActionObject => ({
     type: actionTypes.setUsers,

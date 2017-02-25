@@ -6,7 +6,10 @@
  */
 
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import {
+  Text,
+  TouchableOpacity
+} from 'react-native';
 import {
   Container,
   Header,
@@ -40,17 +43,26 @@ export default class HomeView extends Component {
     }
   }
 
+  toPostView(post: PostType) {
+    this.props.next({
+      postUserId: post.userId,
+      postTitle: post.title,
+      postBody: post.body,
+      postId: post.id
+    });
+  }
+
   renderRow(post: PostType) {
     return (
       <ListItem>
-        <Card>
-          <CardItem>
-            <Body>
-              <Text>{ post.title }</Text>
-              <Text>{ post.body }</Text>
-            </Body>
-          </CardItem>
-        </Card>
+          <Card>
+            <CardItem button onPress={ () => { console.log(post.title); this.toPostView(post); } }>
+                <Body>
+                  <Text>{ post.title }</Text>
+                  <Text>{ post.body }</Text>
+                </Body>
+            </CardItem>
+          </Card>
       </ListItem>
     );
   }

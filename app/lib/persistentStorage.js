@@ -8,19 +8,20 @@
 import { Resource } from 'json-placeholder-client';
 import { AsyncStorage } from 'react-native';
 
-const store = "@SaberStore";
+const store = '@SaberStore';
 
 export default class PersistentStorage {
   static makeKey(name: string): string {
-    return store + ":" + name;
+    return store + ':' + name;
   }
 
-  static retrieveResourceOnline(resource: Resource): Promise<Object> {
+  static retrieveResourceOnline(resource: Resource): Promise<Object | null> {
     return new Promise((resolve) => {
       resource.all().then((result) => {
         if (result.status === 'success') {
           return result.response;
-        }      
+        }
+
         return null;
       }).then((response) => {
         resolve(response);
@@ -30,21 +31,27 @@ export default class PersistentStorage {
     });
   }
 
-  static retrieveResourceOffline(resource: Resource): Promise<Object> {
-    return new Promise((resolve) => 
-                       AsyncStorage.getItem(this.makeKey(resource.name)).then((item) => {
-                         const itemValue = JSON.parse(item);
-                         resolve(itemValue);
-                       }).catch(() => {
-                         resolve(null);
-                       })
+  static retrieveResourceOffline(resource: Resource): Promise<Object | null> {
+    return new Promise((resolve) =>
+                       AsyncStorage.getItem(this.makeKey(resource.name))
+                         .then((item) => {
+                           const itemValue = JSON.parse(item);
+
+                           resolve(itemValue);
+                         }).catch(() => {
+                           resolve(null);
+                         })
                       );
   }
 
   static saveResource(resource: Resource, value: Object): Promise<mixed> {
-    const promise = AsyncStorage
-            .setItem(this.makeKey(resource.name), JSON.stringify(value))
-            .catch((err) => console.log(err));
+    const promise = new Promise((resolve) =>
+                                AsyncStorage
+                                .setItem(this.makeKey(resource.name),
+                                         JSON.stringify(value))
+                                .then(resolve(true))
+                                .catch(() => resolve(false))
+                               );
 
     return promise;
   }
