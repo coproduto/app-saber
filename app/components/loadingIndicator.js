@@ -7,7 +7,8 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text
+  Text,
+  StyleSheet
 } from 'react-native';
 import Spinner from 'react-native-spinkit';
 
@@ -38,10 +39,15 @@ export default class LoadingIndicator extends Component {
           this.props.posts.length) &&
         (!(this.props.errors))) {
       return (
-        <View>
-          <Text>{ (() => this.loadingPhrase())() }</Text>
-          <Spinner type="ThreeBounce"
-                   color="#CCCCCC" />
+        <View style={styles.container}>
+          <View style={styles.loadingView}>
+            <Text style={styles.loadingText}>
+              { (() => this.loadingPhrase())() }
+            </Text>
+          </View>
+          <Spinner type="ChasingDots"
+                   color="#2874F0"
+                   size={80} />
         </View>
       );
     }
@@ -49,3 +55,13 @@ export default class LoadingIndicator extends Component {
     return null;
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    height: 200
+  },
+  loadingView: { margin: 20 },
+  loadingText: { fontSize: 20 }
+});
