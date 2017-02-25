@@ -23,6 +23,10 @@ export class Resource {
     this.resourceName = resource;
   }
 
+  name(): string {
+    return this.resourceName;
+  }
+
   all(): Promise<ResultType> {
     return RestClient.getJson(this.rest.get(this.resourceName));
   }
