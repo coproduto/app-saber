@@ -14,4 +14,4 @@ android:
 script:
 - npm run ci
 - cd android 
-- ./gradlew assembleRelease
+- ./gradlew assembleDebug
