@@ -15,12 +15,12 @@ const hasDataReducers = {
     }
   }),
   hasPosts: createReducer(false, {
-    [types.setUsers] () {
+    [types.setPosts] () {
       return true;
     }
   }),
   hasComments: createReducer(false, {
-    [types.setUsers] () {
+    [types.setComments] () {
       return true;
     }
   })

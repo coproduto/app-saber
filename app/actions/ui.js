@@ -20,6 +20,10 @@ const uiActions: {[id: string]: ReduxAction} = {
   hideLoadingIndicators: (): ActionObject => ({
     type: actionTypes.hideLoadingIndicators,
     payload: {}
+  }),
+  setLoadingPhrase: (phrase): ActionObject => ({
+    type: actionTypes.setLoadingPhrase,
+    payload: { phrase: phrase }
   })
 };
 

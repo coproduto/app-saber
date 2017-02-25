@@ -5,6 +5,7 @@
  *
  */
 import actionTypes from 'action-types';
+import hasDataActions from 'has-data-actions';
 import JsonPlaceholderClient from 'json-placeholder-client';
 
 import type {

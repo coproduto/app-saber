@@ -6,10 +6,7 @@
  */
 
 import React, { Component } from 'react';
-import {
-  View,
-  Text
-} from 'react-native';
+import { Text } from 'react-native';
 import {
   Container,
   Header,
@@ -22,7 +19,7 @@ import {
   List,
   ListItem
 } from 'native-base';
-import Spinner from 'react-native-spinkit';
+import LoadingIndicator from 'loading-indicator-component';
 
 type PostType = { userId: number,
                   id: number,
@@ -36,11 +33,18 @@ export default class HomeView extends Component {
   }
 
   componentDidMount() {
-    this.props.showLoadingIndicators();
-    this.props.fetchPosts();
-    this.props.fetchUsers();
-    this.props.fetchComments();
-   }
+    console.log(this.props);
+    
+    if (!this.props.hasPosts) {
+      this.props.fetchPosts();
+    }
+    if (!this.props.hasUsers) {
+      this.props.fetchUsers();
+    }
+    if (!this.props.hasComments) {
+      this.props.fetchComments();
+    }
+  }
 
   renderRow(post: PostType) {
     return (
@@ -66,13 +70,12 @@ export default class HomeView extends Component {
           </Body>
         </Header>
         <Content>
-          <Spinner type='ThreeBounce'
-                   color='#CCCCCC'
-                   isVisible={ this.props.showLoadingIndicators }/>
-          
+          <LoadingIndicator
+             hasUsers={ this.props.hasUsers }
+             hasPosts={ this.props.hasPosts }
+             hasComments={ this.props.hasComments } />
           <List dataArray={ this.props.posts }
-                renderRow={ (item) => this.renderRow(item) }>            
-          </List>          
+                renderRow={ (item) => this.renderRow(item) } />
         </Content>
       </Container>
     );

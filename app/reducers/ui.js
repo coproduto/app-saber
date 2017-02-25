@@ -15,6 +15,11 @@ const uiReducers = {
     [types.hideLoadingIndicators] () {
       return false;
     }
+  }),
+  loadingPhrase: createReducer("", {
+    [types.setLoadingPhrase] (state, action) {
+      return action.payload.phrase;
+    }
   })
 };
 
