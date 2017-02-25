@@ -17,7 +17,10 @@ disponibilizada em http://jsonplaceholder.typicode.com/.
 
 Escolhi desenvolver minha solução utilizando o framework híbrido 
 [React Native](https://facebook.github.io/react-native/), e seguindo o padrão
-arquitetural [Redux](http://redux.js.org/).
+arquitetural [Flux](https://facebook.github.io/flux/).
+
+A arquitetura Flux foi implementada utilizando o framework 
+[Redux](http://redux.js.org/).
 
 ## Entendendo o código
 
