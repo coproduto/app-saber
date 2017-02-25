@@ -8,7 +8,6 @@
 import type { ReduxActionType } from 'flow-types';
 
 const actionTypes: {[id: string]: ReduxActionType} = {
-  addPost: 'addPost',
   setPosts: 'setPosts',
   fetchPostsFail: 'fetchPostsFail',
   savePosts: 'savePosts',

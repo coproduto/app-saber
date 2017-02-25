@@ -5,8 +5,9 @@
  *
  */
 
-import JsonPlaceholderClient from 'json-placeholder-client';
 import actionTypes from 'action-types';
+import JsonPlaceholderClient from 'json-placeholder-client';
+import Storage from 'persistent-storage';
 
 import type {
   ReduxAction,
@@ -15,20 +16,39 @@ import type {
 
 const comments = new JsonPlaceholderClient().comments();
 
-const commentActions: {[id: string]: ReduxAction} = {
-  fetchComments: () => (dispatch) =>
-    comments.all().then((result) => {
-      if (result.status === 'success') {
-        return result.response;
-      }
-        dispatch(commentActions.fetchUsersFail());
+function retrieveCommentsOnline(): Promise<Object> {
+  return Storage.retrieveResourceOnline(comments);
+}
 
-        return null;
-    }).then((response) => {
-      if (response) {
-        dispatch(commentActions.setComments(response));
+function retrieveCommentsOffline(): Promise<Object> {
+  return Storage.retrieveResourceOffline(comments);
+}
+
+function saveComments(commentArray: Object): Promise<mixed> {
+  return Storage.saveResource(comments, commentArray);
+}
+
+const commentActions: {[id: string]: ReduxAction} = {
+  fetchComments: () => (dispatch) => {    
+    retrieveCommentsOffline().then((results) => {
+      if (results !== null) {
+        dispatch(commentActions.setComments(results));
+      } 
+      dispatch(commentActions.fetchCommentsOnline(results));
+    }).catch((err) => tryOnline(null));                             
+  },
+  fetchCommentsOnline: (offlineResults) => (dispatch) => {
+    retrieveCommentsOnline().then((results) => {
+      if (results !== null) {
+        dispatch(commentActions.setComments(results));
+        saveComments(results);
+      } else {
+        if (offlineResults === null) {
+          dispatch(commentActions.fetchCommentsFail());
+        }
       }
-    }),
+    });
+  },
   setComments: (commentsArray: Object[]): ActionObject => ({
     type: actionTypes.setComments,
     payload: commentsArray

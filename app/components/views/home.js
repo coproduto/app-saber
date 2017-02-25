@@ -28,13 +28,7 @@ type PostType = { userId: number,
                 }
 
 export default class HomeView extends Component {
-  addPost() {
-    this.props.addPost();
-  }
-
-  componentDidMount() {
-    console.log(this.props);
-    
+  componentDidMount() {    
     if (!this.props.hasPosts) {
       this.props.fetchPosts();
     }
