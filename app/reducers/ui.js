@@ -8,7 +8,7 @@ import createReducer from 'create-reducer';
 import types from 'action-types';
 
 const uiReducers = {
-  showLoadingIndicators: createReducer(false, {
+  loadingIndicators: createReducer(false, {
     [types.showLoadingIndicators] () {
       return true;
     },

@@ -36,12 +36,11 @@ export default class HomeView extends Component {
   }
 
   componentDidMount() {
-    this.fetchPosts();
-   }
-
-  fetchPosts() {
+    this.props.showLoadingIndicators();
     this.props.fetchPosts();
-  }
+    this.props.fetchUsers();
+    this.props.fetchComments();
+   }
 
   renderRow(post: PostType) {
     return (
