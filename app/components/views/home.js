@@ -57,12 +57,7 @@ export default class HomeView extends Component {
   }
 
   toPostView(post: PostType) {
-    this.props.next({
-      postUserId: post.userId,
-      postTitle: post.title,
-      postBody: post.body,
-      postId: post.id
-    });
+    this.props.next({ post });
   }
 
   renderRow(post: PostType) {
@@ -147,9 +142,9 @@ const styles = StyleSheet.create({
   },
   header: { margin: 10 },
   headerText: {
-    textAlign: 'left',
+    textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 20
+    fontSize: 15
   },
   postCard: { padding: 20 },
   titleView: {

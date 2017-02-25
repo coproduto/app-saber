@@ -8,7 +8,8 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text
+  Text,
+  StyleSheet
 } from 'react-native';
 import {
   Container,
@@ -34,28 +35,65 @@ type CommentType = { postId: number,
                      body: string
                    }
 
+type UserType = { id: number,
+                  name: string,
+                  email: string,
+                  address: Object,
+                  phone: string,
+                  website: string,
+                  company: Object
+                };
+
+
 export default class PostsView extends Component {
+  orderedUsers: UserType[];
+
+  constructor(props: Object) {
+    super(props);
+    this.orderedUsers = [];
+  }
   
   renderRow(comment: CommentType) {
-    console.log(comment.email);
-    
     return (
       <ListItem>
         <Card>
           <CardItem>
             <Body>
-              <Text>{ comment.email }</Text>
-              <Text>{ comment.name }</Text>
-              <Text>{ comment.body }</Text>
+              <View style={styles.emailView}>
+                <Text style={styles.email}>{ comment.email }</Text>
+              </View>
+              <View style={styles.nameView}>
+                <Text style={styles.name}>{ comment.name }</Text>
+              </View>
+              <View style={styles.bodyView}>
+                <Text style={styles.body}>{ comment.body }</Text>
+              </View>
             </Body>
           </CardItem>
         </Card>
       </ListItem>
     );
-        
   }
   
-  render () {    
+  render () {
+    if(this.props.hasUsers) {
+      this.orderedUsers = this.props.users.sort((a,b) =>
+                                                (a.userId < b.userId) ? -1 : 1);
+    }
+
+    let postUserName = "";
+    if (this.orderedUsers.length > this.props.post.userId - 1) {
+      postUserName = this.orderedUsers[this.props.post.userId - 1].name;
+    }
+
+    let postComments = [];
+    if (this.props.hasComments && this.props.comments.length > 0) {
+      postComments = this.props.comments.filter(
+        (comment) => comment.postId === this.props.post.id
+      );
+    }
+      
+    
     return (
       <Container>
         <Header>
@@ -65,7 +103,7 @@ export default class PostsView extends Component {
             </Button>
           </Left>
           <Body>
-            <Title> Prova Prática SABER </Title>
+            <Title>Comentários</Title>
           </Body>
           <Right />
         </Header>
@@ -74,22 +112,63 @@ export default class PostsView extends Component {
              hasUsers={ this.props.hasUsers }
              hasPosts={ this.props.hasPosts }
              hasComments={ this.props.hasComments } />
-          <List dataArray={ this.props.comments }
-                renderRow={ (item) => this.renderRow(item) } />
+          <View style={{ flex: 1 }}>
+            <Card>
+              <CardItem>
+                <Body>
+                  <View style={styles.post}>
+                    <View style={styles.authorView}>
+                      <Text style={styles.author}>{postUserName}</Text>
+                    </View>
+                    <View style={styles.titleView}>
+                      <Text style={styles.title}>{ this.props.post.title }</Text>
+                    </View>
+                    <View style={styles.separator} />
+                    <View style={styles.bodyView}>
+                      <Text style={styles.body}>{ this.props.post.body }</Text>
+                    </View>
+                  </View>
+                </Body>
+              </CardItem>
+            </Card>
+          </View>
+          <View style={{ flex: this.props.comments.length }}>
+            <List dataArray={ postComments }
+                  renderRow={ (item) => this.renderRow(item) } />
+          </View>
         </Content>
       </Container>
     );
-    /*
-               <Card style={{ height: 100, margin: 20 }}>
-            <CardItem>
-              <Body>
-                <View style={{ height: 100 }}
-                <Text>{ this.props.postTitle }</Text>
-                <Text>{ this.props.postBody }</Text>
-                </View>
-              </Body>
-            </CardItem>
-          </Card>
-     */
   }
 }
+
+const styles = StyleSheet.create({
+  separator: {
+    backgroundColor: '#AAAAAA',
+    height: StyleSheet.hairlineWidth,
+    alignSelf: 'stretch'
+  },
+  post: { padding: 10 },
+  titleView: {
+    margin: 5,
+    marginBottom: 10
+  },
+  authorView: { alignItems: 'flex-start' },
+  commentsView: { alignItems: 'flex-start' },
+  bodyView: { margin: 5 },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 16
+  },
+  author: {
+    fontWeight: 'bold',
+    fontSize: 12
+  },
+  body: {
+    textAlign: 'justify',
+    fontSize: 16
+  },
+  emailView: { marginBottom: 5 },
+  name: { fontWeight: 'bold' }
+});
+

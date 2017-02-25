@@ -71668,12 +71668,7 @@ this.props.fetchComments();
 }},{key:'toPostView',value:function toPostView(
 
 post){
-this.props.next({
-postUserId:post.userId,
-postTitle:post.title,
-postBody:post.body,
-postId:post.id});
-
+this.props.next({post:post});
 }},{key:'renderRow',value:function renderRow(
 
 post){var _this2=this;
@@ -71758,9 +71753,9 @@ alignSelf:'stretch'},
 
 header:{margin:10},
 headerText:{
-textAlign:'left',
+textAlign:'center',
 fontWeight:'bold',
-fontSize:20},
+fontSize:15},
 
 postCard:{padding:20},
 titleView:{
@@ -131681,6 +131676,7 @@ var _reactNative=require(42            ); // 42 = react-native
 
 
 
+
 var _nativeBase=require(457          ); // 457 = native-base
 
 
@@ -131705,19 +131701,38 @@ var _loadingIndicatorComponent=require(777                          );var _loadi
 
 
 
-PostsView=function(_Component){babelHelpers.inherits(PostsView,_Component);function PostsView(){babelHelpers.classCallCheck(this,PostsView);return babelHelpers.possibleConstructorReturn(this,(PostsView.__proto__||Object.getPrototypeOf(PostsView)).apply(this,arguments));}babelHelpers.createClass(PostsView,[{key:'renderRow',value:function renderRow(
+
+
+
+
+
+
+
+
+
+
+PostsView=function(_Component){babelHelpers.inherits(PostsView,_Component);
+
+
+function PostsView(props){babelHelpers.classCallCheck(this,PostsView);var _this=babelHelpers.possibleConstructorReturn(this,(PostsView.__proto__||Object.getPrototypeOf(PostsView)).call(this,
+props));
+_this.orderedUsers=[];return _this;
+}babelHelpers.createClass(PostsView,[{key:'renderRow',value:function renderRow(
 
 comment){
-console.log(comment.email);
-
 return(
 _react2.default.createElement(_nativeBase.ListItem,null,
 _react2.default.createElement(_nativeBase.Card,null,
 _react2.default.createElement(_nativeBase.CardItem,null,
 _react2.default.createElement(_nativeBase.Body,null,
-_react2.default.createElement(_reactNative.Text,null,comment.email),
-_react2.default.createElement(_reactNative.Text,null,comment.name),
-_react2.default.createElement(_reactNative.Text,null,comment.body))))));
+_react2.default.createElement(_reactNative.View,{style:styles.emailView},
+_react2.default.createElement(_reactNative.Text,{style:styles.email},comment.email)),
+
+_react2.default.createElement(_reactNative.View,{style:styles.nameView},
+_react2.default.createElement(_reactNative.Text,{style:styles.name},comment.name)),
+
+_react2.default.createElement(_reactNative.View,{style:styles.bodyView},
+_react2.default.createElement(_reactNative.Text,{style:styles.body},comment.body)))))));
 
 
 
@@ -131727,6 +131742,24 @@ _react2.default.createElement(_reactNative.Text,null,comment.body))))));
 }},{key:'render',value:function render()
 
 {var _this2=this;
+if(this.props.hasUsers){
+this.orderedUsers=this.props.users.sort(function(a,b){return(
+a.userId<b.userId?-1:1);});
+}
+
+var postUserName="";
+if(this.orderedUsers.length>this.props.post.userId-1){
+postUserName=this.orderedUsers[this.props.post.userId-1].name;
+}
+
+var postComments=[];
+if(this.props.hasComments&&this.props.comments.length>0){
+postComments=this.props.comments.filter(
+function(comment){return comment.postId===_this2.props.post.id;});
+
+}
+
+
 return(
 _react2.default.createElement(_nativeBase.Container,null,
 _react2.default.createElement(_nativeBase.Header,null,
@@ -131736,7 +131769,7 @@ _react2.default.createElement(_nativeBase.Icon,{name:'arrow-back'}))),
 
 
 _react2.default.createElement(_nativeBase.Body,null,
-_react2.default.createElement(_nativeBase.Title,null,' Prova Pr\xE1tica SABER ')),
+_react2.default.createElement(_nativeBase.Title,null,'Coment\xE1rios')),
 
 _react2.default.createElement(_nativeBase.Right,null)),
 
@@ -131745,24 +131778,64 @@ _react2.default.createElement(_loadingIndicatorComponent2.default,{
 hasUsers:this.props.hasUsers,
 hasPosts:this.props.hasPosts,
 hasComments:this.props.hasComments}),
-_react2.default.createElement(_nativeBase.List,{dataArray:this.props.comments,
-renderRow:function renderRow(item){return _this2.renderRow(item);}}))));
+_react2.default.createElement(_reactNative.View,{style:{flex:1}},
+_react2.default.createElement(_nativeBase.Card,null,
+_react2.default.createElement(_nativeBase.CardItem,null,
+_react2.default.createElement(_nativeBase.Body,null,
+_react2.default.createElement(_reactNative.View,{style:styles.post},
+_react2.default.createElement(_reactNative.View,{style:styles.authorView},
+_react2.default.createElement(_reactNative.Text,{style:styles.author},postUserName)),
+
+_react2.default.createElement(_reactNative.View,{style:styles.titleView},
+_react2.default.createElement(_reactNative.Text,{style:styles.title},this.props.post.title)),
+
+_react2.default.createElement(_reactNative.View,{style:styles.separator}),
+_react2.default.createElement(_reactNative.View,{style:styles.bodyView},
+_react2.default.createElement(_reactNative.Text,{style:styles.body},this.props.post.body))))))),
 
 
 
 
 
 
-
-
-
-
-
+_react2.default.createElement(_reactNative.View,{style:{flex:this.props.comments.length}},
+_react2.default.createElement(_nativeBase.List,{dataArray:postComments,
+renderRow:function renderRow(item){return _this2.renderRow(item);}})))));
 
 
 
 
 }}]);return PostsView;}(_react.Component);exports.default=PostsView;
+
+
+var styles=_reactNative.StyleSheet.create({
+separator:{
+backgroundColor:'#AAAAAA',
+height:_reactNative.StyleSheet.hairlineWidth,
+alignSelf:'stretch'},
+
+post:{padding:10},
+titleView:{
+margin:5,
+marginBottom:10},
+
+authorView:{alignItems:'flex-start'},
+commentsView:{alignItems:'flex-start'},
+bodyView:{margin:5},
+title:{
+fontWeight:'bold',
+fontSize:16},
+
+author:{
+fontWeight:'bold',
+fontSize:12},
+
+body:{
+textAlign:'justify',
+fontSize:16},
+
+emailView:{marginBottom:5},
+name:{fontWeight:'bold'}});
 }, 779, null, "posts-view");
 __d(/* actions */function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});
 
