@@ -10,7 +10,7 @@
  *
  *     Como queremos que o aplicativo funcione de forma igual tanto no Android
  *     quanto no iOS, nenhuma customização é realizada e o controle é passado
- *     imediatamente para o componente raiz.
+ *     imediatamente para o componente raiz (O componente App).
  *
  * @flow
  *

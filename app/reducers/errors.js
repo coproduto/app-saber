@@ -1,4 +1,11 @@
 /**
+ * errors.js: Redutores de erros
+ *
+ * Este módulo define os redutores que manipulam as partes do estado do
+ * aplicativo que indicam se um erro ocorreu.
+ *
+ * Os redutores são criados usando a função `createReducer`, disponível em
+ * app/lib/createReducer.js.
  *
  * @providesModule error-reducers
  * @flow

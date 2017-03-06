@@ -1,9 +1,22 @@
 /**
  * app.js: Ponto de entrada do aplicativo
  *
- *     A execução do aplicativo começa com o carregamento deste componente, o qual
- *     por sua vez é responsável por criar a infra-estutura de gerenciamento de estado
- *     da arquitetura Redux e passar o controle para o próximo componente.
+ *     A execução do aplicativo começa com o carregamento deste componente, o
+ *     qual por sua vez é responsável por criar a infra-estutura de
+ *     gerenciamento de estado da arquitetura Flux e passar o controle para o
+ *     próximo componente. Por isso, este componente cria um componente
+ *     AppContainer dentro de um componente Provider conectado com o "store"
+ *     Flux implementado pelo framework Redux.
+ *
+ *     (O Provider realiza a conexão da interface gráfica do aplicativo com a
+ *     parte lógica (implementada pelas ações e redutores do Redux - ver as
+ *     pastas app/actions/ e app/reducers/). Especificamente, o Provider torna
+ *     o estado do aplicativo acessível ao seu componente-filho, mas não cria
+ *     nenhuma ação que a interface gráfica possa iniciar - isso é realizado
+ *     pelo AppContainer.
+ *
+ *     A execução do aplicativo continua no componente AppContainer, que está
+ *     implementado em app/containers/appContainer.js.
  *
  * @flow
  * @providesModule saber-app

@@ -1,9 +1,30 @@
 /**
+ * appContainer.js: Componente que disponibiliza ações e variáveis de estado
+ *                  aos seus descendentes
  *
- * @providesModule app-container
+ *     No componente anterior (o componente App, disponível em app/app.js), nós
+ *     criamos a infra-estrutura de estado Flux através do framework Redux, e
+ *     passamos o controle para este componente. Agora, o componente
+ *     AppContainer irá usar a função `bindActionCreators` do framework Redux
+ *     para disponibilizar as ações que os componentes da interface gráfica
+ *     podem utilizar para manipular o estado da aplicação.
+ *
+ *     As ações são criadas pela função `bindActionCreators`, e
+ *     disponibilizadas ao componente através da função `connect` do
+ *     framework React Redux. Essa função também disponibiliza as partes
+ *     do estado da aplicação que a interface gráfica precisa exibir.
+ *
+ *     Finalmente, tanto as ações quanto as variáveis de estado são passadas
+ *     para o componente AppNavigator através da notação `...this.props`.
+ *
+ *     A execução do aplicativo continua no componente AppNavigator, disponível
+ *     em app/containers/appNavigator.js, o qual é responsável por configurar a
+ *     navegação entre múltiplas telas.
+ *
  * @flow
+ * @providesModule app-container
  *
- */
+ **/
 
 import React, { Component } from 'react';
 import AppNavigator from 'app-navigator';

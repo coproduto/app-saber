@@ -1,8 +1,17 @@
 /**
+ * loadingIndicator.js: Indicador de carregamento
+ *
+ * Este componente define um indicador de carregamento
+ * baseado em uma animação da biblioteca react-native-spinkit.
+ *
+ * O indicador define uma frase de carregamento baseado em quais partes do
+ * conteúdo já foram ou não carregadas e exibe a animação. O componente que
+ * utiliza este indicador é responsável por passar os dados para ele e mostrá-lo
+ * ou escondê-lo quando apropriado.
  *
  * @providesModule loading-indicator-component
  *
- */
+ **/
 
 import React, { Component } from 'react';
 import {
@@ -14,6 +23,7 @@ import Spinner from 'react-native-spinkit';
 
 export default class LoadingIndicator extends Component {
 
+  // método que define a frase de carregamento a exibir
   loadingPhrase(): string {
     if (!this.props.hasPosts) {
       return 'Carregando postagens...';
@@ -30,6 +40,7 @@ export default class LoadingIndicator extends Component {
     return '';
   }
 
+  // método de renderização
   render() {
     if (!(this.props.hasPosts &&
           this.props.hasUsers &&
@@ -57,7 +68,7 @@ export default class LoadingIndicator extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  conptainer: {
     alignItems: 'center',
     alignSelf: 'stretch',
     height: 200

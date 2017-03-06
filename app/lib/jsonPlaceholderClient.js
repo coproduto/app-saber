@@ -1,8 +1,16 @@
 /**
+ * jsonPlaceholderClient.js: Biblioteca de acesso à API REST JsonPlaceholder
+ *
+ * Este arquivo simplesmente usa a classe RestClient es da biblioteca Restful,
+ * que criei para este aplicativo e está disponível em app/lib/restful,
+ * para criar uma classe que abstrai as operações de acesso à API disponível em
+ * http://jsonplaceholder.typicode.com/. Os recursos da API são abstraídos como
+ * instâncias da classe Resource, aqui definida, que mantém uma referência a
+ * um cliente Restful que de fato realiza as operações de rede.
  *
  * @providesModule json-placeholder-client
  *
- */
+ **/
 
 import 'react-native';
 import RestClient from 'rest-client';

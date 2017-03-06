@@ -1,7 +1,16 @@
 /**
+ * posts.js: Tela de exibição de postagem específica
  *
- * @providesModule posts-view
+ * Este componente é acessado a partir da tela inicial (definida em
+ * /app/components/views/home.js) e define a tela que exibe um único post e seus
+ * respectivos comentários.
+ *
+ * Esta tela não realiza carregamento de conteúdo, visto que a tela anterior já
+ * inicia as ações de carregamento de conteúdo: Ela apenas define,
+ * declarativamente, como o conteúdo deve ser exibido.
+ *
  * @flow
+ * @providesModule posts-view
  *
  */
 
@@ -48,11 +57,14 @@ type UserType = { id: number,
 export default class PostsView extends Component {
   orderedUsers: UserType[];
 
+  //no construtor atribuímos uma lista vazia para que o aplicativo não
+  //feche se a tela for aberta sem conteúdo.
   constructor(props: Object) {
     super(props);
     this.orderedUsers = [];
   }
-  
+
+  //método que renderiza um único comentário
   renderRow(comment: CommentType) {
     return (
       <ListItem>
@@ -74,7 +86,8 @@ export default class PostsView extends Component {
       </ListItem>
     );
   }
-  
+
+  //método que renderiza a tela completa
   render () {
     if(this.props.hasUsers) {
       this.orderedUsers = this.props.users.sort((a,b) =>
@@ -146,6 +159,7 @@ export default class PostsView extends Component {
   }
 }
 
+//estilos dos componentes
 const styles = StyleSheet.create({
   separator: {
     backgroundColor: '#AAAAAA',

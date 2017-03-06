@@ -1,9 +1,18 @@
 /**
+ * users.js: Ações de carregamento e salvamento de usuários
+ *
+ * Este módulo define as ações que a interface gráfica pode usar para carregar
+ * usuários. O salvamento dos usuários no banco de dados AsyncStorage é
+ * realizado pela biblioteca PersistentStorage (que faz parte deste aplicativo
+ * e está definida em app/lib/persistentStorage.js). A ação de carregamento de
+ * usuários segue o mesmo fluxo da de carregamento de posts.
+ *
+ * (Ver app/actions/posts.js)
  *
  * @providesModule user-actions
  * @flow
  *
- */
+ **/
 
 import actionTypes from 'action-types';
 import JsonPlaceholderClient from 'json-placeholder-client';

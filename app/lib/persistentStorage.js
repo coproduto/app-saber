@@ -1,4 +1,21 @@
 /**
+ * persistentStorage.js: Biblioteca de abstração do armazenamento persistente.
+ *
+ * No React Native, o armazenamento persistente é provido pela classe
+ * AsyncStorage, a qual abstrai os bancos de dados disponíveis tanto no iOS
+ * quanto no Android. Esta biblioteca, além de abstrair o armazenamento
+ * persistente e gerenciar uma série de chaves de armazenamento, abstrai o
+ * acesso a recursos da API de forma tal que eles possam ser acessados de
+ * forma uniforme pelas ações do aplicativo, independente dos dados serem
+ * buscados no banco de dados ou online.
+ *
+ * Os dados são sempre salvos no banco como strings JSON.
+ *
+ * Esta biblioteca usa extensivamente objetos Promise. Para maiores referências,
+ * ver:
+ *
+ * https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/
+ *                                              Reference/Global_Objects/Promise
  *
  * @providesModule persistent-storage
  * @flow
@@ -16,6 +33,7 @@ function makeKey(name: string): string {
 
 export default class PersistentStorage {
 
+  // criar promessa que busca dados online
   static retrieveResourceOnline(resource: Resource): Promise<Object | null> {
     return new Promise((resolve) => {
       resource.all().then((result) => {
@@ -32,6 +50,7 @@ export default class PersistentStorage {
     });
   }
 
+  // criar promessa que busca dados no banco de dados
   static retrieveResourceOffline(resource: Resource): Promise<Object | null> {
     const path = makeKey(resource.name());
 
@@ -47,6 +66,7 @@ export default class PersistentStorage {
                       );
   }
 
+  // criar promessas que salva dados no banco de dados
   static saveResource(resource: Resource, value: Object): Promise<mixed> {
     const path = makeKey(resource.name());
 
